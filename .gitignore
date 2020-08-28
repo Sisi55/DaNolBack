@@ -1,0 +1,18 @@
+## IDE Config
+.idea
+.vscode/
+
+## virtual env
+django_py
+
+## env
+env/etc
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+## Python compiled byte code
+__pycache__
+*.pyc
