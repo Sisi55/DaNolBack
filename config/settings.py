@@ -20,7 +20,11 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 with open(os.path.join(BASE_DIR, 'env/etc/secret.txt')) as f:
-    SECRET_KEY = f.read().strip()
+    SECRET_KEY = f.readline().strip()
+    # print('settings SECRET_KEY', SECRET_KEY)
+    API_KEY = f.readline().strip()
+    # print('settings API_KEY', API_KEY)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
