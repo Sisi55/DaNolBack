@@ -16,3 +16,6 @@ env/etc
 ## Python compiled byte code
 __pycache__
 *.pyc
+
+## secret file
+*/로컬세팅방법.md

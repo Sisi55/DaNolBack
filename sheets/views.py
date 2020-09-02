@@ -115,26 +115,20 @@ def test_sheet_api(request):
 @api_view(['POST'])
 @transaction.atomic
 def save_archiving_data(request):  # 기존 엑셀 데이터를 db 에 저장하는 API
-    # print('api send')
     if request.method == 'POST':
 
         api_key = request.query_params.get('apiKey')  # 아주 간단하게 인증 : post 니까!
         if api_key != settings.API_KEY:
-            # print('api_key', api_key)
-            # print('settings.API_KEY', settings.API_KEY)
             return Response({"message": "Request Permission Error."}, status=status.HTTP_403_FORBIDDEN)
 
         DATA_LEN = {
             '2016': 16,
             '2017': 33,
             '2018': 42,
-            '2019': 23,  # 다 잘 나오는지 먼저 파악 ok
+            '2019': 23,
         }
         max_data_len = max(DATA_LEN.values())
         print('max_data_len', max_data_len)
-
-        # year = request.query_params.get('year') # 한꺼번에 저장하는 api
-        # print('year', year)
 
         file = request.FILES['file']
         data = xlsx_get(file, row_limit=max_data_len)  # DATA_LEN[year]
@@ -143,8 +137,6 @@ def save_archiving_data(request):  # 기존 엑셀 데이터를 db 에 저장하
 
         content_list = []
         for key_year, value_data_len in DATA_LEN.items():
-            # print("key",key_year)
-            # print("value", value_data_len)
 
             data[key_year] = data[key_year][1:]  # header 제외
             # content_list = []
@@ -157,25 +149,17 @@ def save_archiving_data(request):  # 기존 엑셀 데이터를 db 에 저장하
                 # print('order', row[2])
                 # print('presenter_name', row[3])
                 # print('title', row[4])
-                if len(row) == 5:
+                if len(row) == 5: # email
                     row.append("")
                     row.append("")
-                if len(row) == 6:
+                if len(row) == 6: # resource link
                     row.append("")
-
-                    # row[5] = ""
-                    # row[6] = ""
-                # row[5] = row[5] if row[5] else ""
-                # print('email', row[5])
-                # row[6] = row[6] if row[6] else ""
-                # print('source_link', row[6])
 
                 # 발표자 생성 : TODO 사실 다시 덮어쓰려면 가져와서 수정하는 작업이 필요하다
                 presenter = Member(name=row[3])
                 # 발표 생성
                 content = Content(year=row[0], track_num=row[1], order=row[2], presenter=presenter, title=row[4],
                                   source_link=row[6])
-                # 저장은 잠시만 - 욕심내서 한번에 저장하는 함수로 만들어보자
                 presenter.save()
                 content.save()
                 content_list.append(ContentSerializer(instance=content).data)  # test
@@ -189,5 +173,13 @@ def save_archiving_data(request):  # 기존 엑셀 데이터를 db 에 저장하
 
 @api_view(['GET'])
 def get_contents(request):
+    year = request.query_params.get('year')
+    print('year', year)
 
-    return Response({"message": "test ok."}, status=status.HTTP_200_OK)
+    content_list = Content.objects.filter(year=year)
+    content_serializer = ContentSerializer(instance=content_list,many=True)
+
+    return Response({
+        'size':len(content_serializer.data),
+        'data':content_serializer.data,
+    }, status=status.HTTP_200_OK)
