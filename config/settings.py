@@ -27,7 +27,7 @@ with open(os.path.join(BASE_DIR, 'env/etc/secret.txt')) as f:
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True # False
 
 ALLOWED_HOSTS = ['*']
 
