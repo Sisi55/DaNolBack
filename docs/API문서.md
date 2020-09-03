@@ -38,15 +38,41 @@
   > | difficulty        | 난이도   |
   >
   > 가 추가될 예정입니다!
+
+- ```python
+  {
+      "size": 15,
+      "data": [
+          {
+              "id": 1,
+              "year": "2016",
+              "track_num": "1",
+              "order": "1",
+              "presenter": {
+                  "id": 1,
+                  "kind": "발표자",
+                  "email": null,
+                  "image_url": null,
+                  "name": "김상우",
+                  "introduction": null,
+                  "sns": []
+              },
+              "title": "데이터 분석에서 가치 만들어내기",
+              "source_link": "https://datayanolja.github.io/2017-datayanolja/slide/2016/1-%ED%82%A4%EB%85%B8%ED%8A%B8/%ED%82%A4%EB%85%B8%ED%8A%B8-1-%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EB%B6%84%EC%84%9D%EC%97%90%EC%84%9C%20%EA%B0%80%EC%B9%98%20%EB%A7%8C%EB%93%A4%EC%96%B4%EB%82%B4%EA%B8%B0-%EA%B9%80%EC%83%81%EC%9A%B0.pdf"
+          },
+          ...
+      ]
+  }
+  ```
   
-- > 범위 외 연도 입력하면
-  >
-  > ```python
-  > {
-  >     "size": 0,
-  >     "data": []
-  > }
-  > ```
+- 범위 외 연도 입력하면
+  
+  ```python
+  {
+   "size": 0,
+   "data": []
+  }
+  ```
 
 
 
