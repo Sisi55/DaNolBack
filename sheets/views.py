@@ -149,10 +149,10 @@ def save_archiving_data(request):  # 기존 엑셀 데이터를 db 에 저장하
                 # print('order', row[2])
                 # print('presenter_name', row[3])
                 # print('title', row[4])
-                if len(row) == 5: # email
+                if len(row) == 5:  # email
                     row.append("")
                     row.append("")
-                if len(row) == 6: # resource link
+                if len(row) == 6:  # resource link
                     row.append("")
 
                 # 발표자 생성 : TODO 사실 다시 덮어쓰려면 가져와서 수정하는 작업이 필요하다
@@ -177,9 +177,21 @@ def get_contents(request):
     print('year', year)
 
     content_list = Content.objects.filter(year=year)
-    content_serializer = ContentSerializer(instance=content_list,many=True)
+    TRACK = {
+        '2016': 3,
+        '2017': 3,
+        '2018': 4,
+        '2019': 3,
+    }
+
+    track_data = {}
+    for track in range(1, TRACK[year] + 1):
+        content_track = content_list.filter(track_num=str(track))
+        content_serializer = ContentSerializer(instance=content_track, many=True)
+        track_data[f"track{track}"] = content_serializer.data
 
     return Response({
-        'size':len(content_serializer.data),
-        'data':content_serializer.data,
+        'size': len(content_list),
+        'year': year,
+        'data': track_data,  # content_serializer.data,
     }, status=status.HTTP_200_OK)
