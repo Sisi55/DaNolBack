@@ -17,6 +17,16 @@ class MemberSerializer(serializers.ModelSerializer):
         serializer = SnsSerializer(instance=obj.sns.all(), many=True)
         return serializer.data
 
+    def create(self, validated_data):
+        return Member.objects.create(**validated_data)
+
+    def update(self, instance, validated_data): # introduction, homepage_link, sponsorship_rating
+        instance.introduction = validated_data.get('introduction', instance.introduction)
+        # instance.homepage_link = validated_data.get('homepage_link', instance.homepage_link)
+        # instance.sponsorship_rating = validated_data.get('sponsorship_rating', instance.sponsorship_rating)
+        instance.save()
+        return instance
+
 
 class ContentSerializer(serializers.ModelSerializer):
     presenter = MemberSerializer()

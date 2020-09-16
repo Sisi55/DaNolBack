@@ -21,7 +21,7 @@ class Member(models.Model):  # 발표자/준비위
     introduction = models.TextField('소개글', null=True)
 
 
-# kind email image_url name introduction
+# Member: kind=PreparatoryCommittee email name introduction
 
 class SNS(models.Model):  # 발표자 sns 계정
     owner = models.ForeignKey(Member, on_delete=models.SET_NULL, related_name="sns", null=True)

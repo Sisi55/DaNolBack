@@ -1,5 +1,15 @@
 [toc]
 
+##### 목차
+
+> Ctrl + F 로 찾아주세요!
+
+- 발표자료 가져오기
+- 후원기업 api
+- 준비위 api
+
+
+
 > ##### BASE_URL
 >
 > - http://danol-env.ap-northeast-2.elasticbeanstalk.com
@@ -128,8 +138,20 @@
 ## 후원기업 api
 
 - url : GET
+
   - BASE_URL + /sheets/sponsors/
+
 - response
+
+  | 속성이름           | 속성설명                                                    |
+  | ------------------ | ----------------------------------------------------------- |
+  | size               | 전체 데이터 길이                                            |
+  | data               | 등급별 후원기업 나열하였습니다<br /> (Platinum/Gold/Silver) |
+| introduction       | 후원 기업 소개글                                            |
+  | homepage_link      | 홈페이지 링크                                               |
+  | sponsorship_rating | 후원 등굽                                                   |
+  | name               | 후원 기업 이름                                              |
+  
 
 ```python
 {
@@ -191,6 +213,202 @@
 
 
 
+## 준비위 api
+
+- url : GET
+  - BASE_URL + /sheets/committee-members/
+- response
+
+| 속성이름     | 속성설명                                                     |
+| ------------ | ------------------------------------------------------------ |
+| size         | 데이터 길이                                                  |
+| data         | 실제 데이터                                                  |
+| email        | 준비위 이메일                                                |
+| name         | 준비위 이름                                                  |
+| introduction | 준비위 한줄 소개                                             |
+| sns          | (*소셜 계정 정보를 넣으려고 모델링한 곳인데 프론트에서 이 정보를 어떻게 출력하실지 몰라 데이터를 채우지 않았습니다*) |
+
+```python
+{
+    "size": 19,
+    "data": [
+        {
+            "id": 149,
+            "kind": "준비위",
+            "email": "dnlriver@naver.com",
+            "image_url": null,
+            "name": "공태웅",
+            "introduction": "컨텐츠 파트 팀원",
+            "sns": []
+        },
+        {
+            "id": 150,
+            "kind": "준비위",
+            "email": "soryeongk.kr@gmail.com",
+            "image_url": null,
+            "name": "김소령",
+            "introduction": "홈페이지 파트 팀원",
+            "sns": []
+        },
+        {
+            "id": 151,
+            "kind": "준비위",
+            "email": "dqgsh1055@gmail.com",
+            "image_url": null,
+            "name": "김시현",
+            "introduction": "컨텐츠 / 홈페이지 / 뉴스레터 파트 팀원",
+            "sns": []
+        },
+        {
+            "id": 152,
+            "kind": "준비위",
+            "email": "youngwung.kim@gmail.com",
+            "image_url": null,
+            "name": "김영웅",
+            "introduction": "컨텐츠 파트 팀원",
+            "sns": []
+        },
+        {
+            "id": 153,
+            "kind": "준비위",
+            "email": "dmstn2006@naver.com",
+            "image_url": null,
+            "name": "김은수",
+            "introduction": "스튜디오 파트장",
+            "sns": []
+        },
+        {
+            "id": 154,
+            "kind": "준비위",
+            "email": "jongho.kim95@gmail.com",
+            "image_url": null,
+            "name": "김종호",
+            "introduction": "뉴스레터 팀원",
+            "sns": []
+        },
+        {
+            "id": 155,
+            "kind": "준비위",
+            "email": "jinyoungkim0828@gmail.com",
+            "image_url": null,
+            "name": "김진영",
+            "introduction": "디자인 파트장",
+            "sns": []
+        },
+        {
+            "id": 156,
+            "kind": "준비위",
+            "email": "mel.f.dev@gmail.com",
+            "image_url": null,
+            "name": "박슬기",
+            "introduction": "올어라운드 플레이어",
+            "sns": []
+        },
+        {
+            "id": 157,
+            "kind": "준비위",
+            "email": "hyun.sang@parkhyunsang.com",
+            "image_url": null,
+            "name": "박현상",
+            "introduction": "홈페이지 파트 팀원",
+            "sns": []
+        },
+        {
+            "id": 158,
+            "kind": "준비위",
+            "email": "mathmjseo@khu.ac.kr",
+            "image_url": null,
+            "name": "서민정",
+            "introduction": "뉴스레터 파트장",
+            "sns": []
+        },
+        {
+            "id": 159,
+            "kind": "준비위",
+            "email": "nalonghae311@gmail.com",
+            "image_url": null,
+            "name": "양나영",
+            "introduction": "컨텐츠 파트 팀원",
+            "sns": []
+        },
+        {
+            "id": 160,
+            "kind": "준비위",
+            "email": "s2018s10@e-mirim.hs.kr",
+            "image_url": null,
+            "name": "양아름",
+            "introduction": "홈페이지 파트장",
+            "sns": []
+        },
+        {
+            "id": 161,
+            "kind": "준비위",
+            "email": "junghwan.alfred.yun@gmail.com",
+            "image_url": null,
+            "name": "윤정환",
+            "introduction": "콘텐츠 파트장",
+            "sns": []
+        },
+        {
+            "id": 162,
+            "kind": "준비위",
+            "email": "ghkdud204@gmail.com",
+            "image_url": null,
+            "name": "윤화영",
+            "introduction": "컨텐츠 / 커뮤니케이션 / 디자인파트 팀원",
+            "sns": []
+        },
+        {
+            "id": 163,
+            "kind": "준비위",
+            "email": "s2018s12@e-mirim.hs.kr",
+            "image_url": null,
+            "name": "윤희나",
+            "introduction": "올어라운드 플레이어 -> 틈 파트장!",
+            "sns": []
+        },
+        {
+            "id": 164,
+            "kind": "준비위",
+            "email": "leeilsup0909@gmail.com",
+            "image_url": null,
+            "name": "이일섭",
+            "introduction": "데놀2020 놀장",
+            "sns": []
+        },
+        {
+            "id": 165,
+            "kind": "준비위",
+            "email": "mineislucky@gmail.com",
+            "image_url": null,
+            "name": "장민서",
+            "introduction": "스폰서쉽 / 스튜디오 파트 팀원",
+            "sns": []
+        },
+        {
+            "id": 166,
+            "kind": "준비위",
+            "email": "jess0884@gmail.com",
+            "image_url": null,
+            "name": "한연희",
+            "introduction": "커뮤니케이션 파트장",
+            "sns": []
+        },
+        {
+            "id": 167,
+            "kind": "준비위",
+            "email": "imyuna.viz@gmail.com",
+            "image_url": null,
+            "name": "임유나",
+            "introduction": "디자인 팀원",
+            "sns": []
+        }
+    ]
+}
+```
+
+
+
 
 
 > 한글은 영문으로 변경될 예정입니다 
@@ -229,22 +447,6 @@
 >
 >   - 발표자료 가져오기 api 와 동일한 response
 >
-> - #### 후원기업 api
+>   
 >
-> ```python
-> {
->     "길이": 32,
->     "data": [
->         {
->             "id": 1,
->             "로고url": "...구글 드라이브로 공유할 생각이었습니다",
->             "소개": "데이터야놀자 어쩌구저쩌구솰라",
->             "기업이름": "주데놀",
->             "홈페이지url": "naver.com"
->         }, ...
->     ]
-> }
-> ```
-
-
-
+> 

@@ -19,7 +19,7 @@ from openpyxl import load_workbook
 from pyexcel_xlsx import get_data as xlsx_get
 
 from sheets.models import Member, Content, Sponsor
-from sheets.serializers import ContentSerializer, SponsorSerializer
+from sheets.serializers import ContentSerializer, SponsorSerializer, MemberSerializer
 
 
 @api_view(['GET'])
@@ -223,6 +223,67 @@ def save_sponsor_data(request):
     }, status=status.HTTP_200_OK)
 
 
+@api_view(['POST'])
+def save_committee_data(request):
+    data_len = request.query_params.get('size')  # 데이터 길이 수동 입력
+    # 시트 이름은 어떻게 하지! 일단 하드코딩 : '설문지 응답 시트1'
+    sheet_name = '설문지 응답 시트1'
+
+    # 간단한 인증 : 홈페이지 데이터라서
+    api_key = request.query_params.get('apiKey')  # 아주 간단하게 인증 : post 니까!
+    if api_key != settings.API_KEY:
+        return Response({"message": "Request Permission Error."}, status=status.HTTP_403_FORBIDDEN)
+
+    # 파일 받아오기
+    file = request.FILES['file']
+    data = xlsx_get(file, row_limit=int(data_len))  # DATA_LEN[year]
+
+    data[sheet_name] = data[sheet_name][1:]  # header 제외
+    print(len(data[sheet_name]))
+
+    content_list = []
+    for row in data[sheet_name]:
+        print('row all', row)
+        if not row:  # 시트 행 != 실제 행 : 중간에 생략된 행 번호가 있네
+            break
+        # content_list.append(row)
+
+        # Member: kind=PreparatoryCommittee email name introduction
+
+        # print('name', row[1])
+        # print('email', row[4])
+        # print('introduction', row[3])
+
+        data = {
+            'name': row[1],
+            'email': row[4],
+            'introduction': row[3],
+            'kind': Member.PreparatoryCommittee
+        }
+        # content_list.append(data)
+
+        # # 이미 있는지 이름 기반으로 확인하기
+        existing_committee = Member.objects.filter(name=row[1]).first()
+
+        if existing_committee is not None:  # 이미 있으면
+            member_serializer = MemberSerializer(existing_committee, data=data)
+        else:
+            member_serializer = MemberSerializer(data=data)
+
+        if not member_serializer.is_valid(raise_exception=True):
+            return Response({"message": "Request Body Error."}, status=status.HTTP_409_CONFLICT)
+
+        member_serializer.save()
+
+        # content_list.append(member_serializer.validated_data)
+        content_list.append(member_serializer.data)
+
+    return Response({
+        'size': len(content_list),
+        'data': content_list,
+    }, status=status.HTTP_200_OK)
+
+
 @api_view(['GET'])
 def get_contents(request):
     year = request.query_params.get('year')
@@ -248,6 +309,7 @@ def get_contents(request):
         'data': track_data,  # content_serializer.data,
     }, status=status.HTTP_200_OK)
 
+
 @api_view(['GET'])
 def get_sponsors(request):
     sponsor_list = Sponsor.objects.all()
@@ -263,4 +325,15 @@ def get_sponsors(request):
         'size': len(sponsor_list),
         # 'year': year,
         'data': rating_data,  # content_serializer.data,
+    }, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def get_members(request):
+    member_list = Member.objects.filter(kind=Member.PreparatoryCommittee)
+    member_serializer = MemberSerializer(instance=member_list, many=True)
+
+    return Response({
+        'size': len(member_serializer.data),
+        'data': member_serializer.data,  # content_serializer.data,
     }, status=status.HTTP_200_OK)
