@@ -140,18 +140,18 @@
 - url : GET
 
   - BASE_URL + /sheets/sponsors/
-
 - response
 
-  | 속성이름           | 속성설명                                                    |
-  | ------------------ | ----------------------------------------------------------- |
-  | size               | 전체 데이터 길이                                            |
-  | data               | 등급별 후원기업 나열하였습니다<br /> (Platinum/Gold/Silver) |
+| 속성이름           | 속성설명                                                    |
+| ------------------ | ----------------------------------------------------------- |
+| size               | 전체 데이터 길이                                            |
+| data               | 등급별 후원기업 나열하였습니다<br /> (Platinum/Gold/Silver) |
 | introduction       | 후원 기업 소개글                                            |
-  | homepage_link      | 홈페이지 링크                                               |
-  | sponsorship_rating | 후원 등굽                                                   |
-  | name               | 후원 기업 이름                                              |
-  
+| homepage_link      | 홈페이지 링크                                               |
+| sponsorship_rating | 후원 등급                                                   |
+| name               | 후원 기업 이름                                              |
+
+
 
 ```python
 {
@@ -446,7 +446,5 @@
 > - #### 타임테이블 api (2020ver) 
 >
 >   - 발표자료 가져오기 api 와 동일한 response
->
->   
 >
 > 
