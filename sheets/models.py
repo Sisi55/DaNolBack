@@ -37,6 +37,8 @@ class SNS(models.Model):  # 발표자 sns 계정
         blank=True, null=True
     )
     link = models.TextField('sns링크')
+
+
 # kind link
 
 class Content(models.Model):  # 발표
@@ -54,7 +56,17 @@ class Content(models.Model):  # 발표
 # year track_num order presenter title source_link
 
 class Sponsor(models.Model):  # 후원사
-    image_url = models.TextField('로고')
+    image_url = models.TextField('로고', null=True)
     introduction = models.TextField('소개글', null=True)
-    homepage_link = models.CharField('홈페이지', max_length=50)
-    sponsorship_rating = models.CharField('후원등급', max_length=50)
+    homepage_link = models.TextField('홈페이지')
+
+    Platinum, Gold, Silver = 'Platinum', 'Gold', 'Silver'
+    SPONSORSHIP_CHOICES = [
+        (Platinum, 'Platinum'), (Gold, 'Gold'), (Silver, 'Silver'),
+    ]
+    sponsorship_rating = models.CharField('후원등급', max_length=50, choices=SPONSORSHIP_CHOICES,
+                                          blank=True, null=True)
+
+    name = models.CharField('기업이름', max_length=50, null=True)
+
+# Sponsor : introduction, homepage_link, sponsorship_rating, name

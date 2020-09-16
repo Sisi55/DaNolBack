@@ -1,10 +1,11 @@
 from rest_framework import serializers
 
-from sheets.models import Member, Content
+from sheets.models import Member, Content, SNS, Sponsor
 
 
 class MemberSerializer(serializers.ModelSerializer):
     sns = serializers.SerializerMethodField()
+
     # contents =
 
     class Meta:
@@ -27,8 +28,24 @@ class ContentSerializer(serializers.ModelSerializer):
 
 
 class SnsSerializer(serializers.ModelSerializer):
-
     class Meta:
-        model = Content
+        model = SNS
         fields = ['id', 'kind', 'link']
         read_only_fields = []
+
+
+class SponsorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sponsor
+        fields = ['id', 'introduction', 'homepage_link', 'sponsorship_rating', 'name']
+        read_only_fields = []
+
+    def create(self, validated_data):
+        return Sponsor.objects.create(**validated_data)
+
+    def update(self, instance, validated_data): # introduction, homepage_link, sponsorship_rating
+        instance.introduction = validated_data.get('introduction', instance.introduction)
+        instance.homepage_link = validated_data.get('homepage_link', instance.homepage_link)
+        instance.sponsorship_rating = validated_data.get('sponsorship_rating', instance.sponsorship_rating)
+        instance.save()
+        return instance

@@ -120,8 +120,74 @@
     }
     ```
 
-  
-  
+
+
+
+
+
+## 후원기업 api
+
+- url : GET
+  - BASE_URL + /sheets/sponsors/
+- response
+
+```python
+{
+    "size": 6,
+    "data": {
+        "Platinum": [
+            {
+                "id": 1,
+                "introduction": "네이버는 대한민국 No1 기술플랫폼 기업이며 쇼핑, 금융, 광고, 동영상, UGC 등 다양한 서비스를 제공합니다. 특히 라인을 비롯하여 스노우, 웹툰, Vlive의 성공을 통해 글로벌 서비스의 한류를 리딩하고 있습니다. 최근 수년간 매출의 1/4을 R&D 투자중이며 특히 클로바, 네이버랩스, 그리고 네이버랩스유럽을 통해 AI와 로보틱스 분야에서 글로벌 수준의 경쟁력을 보여주고 있습니다. 더나아가 최근 한국,일본, 동남아, 유럽을 잇는 Global AI R&D Belt 구축을 통해 진정한 글로벌 기술기업으로 거듭나고 있습니다.",
+                "homepage_link": "https://www.navercorp.com/",
+                "sponsorship_rating": "Platinum",
+                "name": "네이버"
+            },
+            {
+                "id": 3,
+                "introduction": "국내 1위 배달앱 배달의민족을 운영하는 ‘우아한형제들’은 '좋은 음식을 먹고 싶은 곳에서'라는 비전 아래, 배달이 안 되던 외식업소의 음식을 배달해주는 '배민라이더스',  음식업종 자영업자에게 좋은 품질의 배달용품을 합리적인 가격에 제공하는 '배민상회' 등으로 배달문화를 바꿔 나가고 있습니다. \n  또한 종합 '푸드테크' 기업으로 나아가기 위하여 해외시장 진출 등의 글로벌 사업과 자율주행 로봇 기술 개발 등의 미래사업으로 사업확장을 준비, 진행하고 있습니다.",
+                "homepage_link": "https://www.woowahan.com/",
+                "sponsorship_rating": "Platinum",
+                "name": "우아한형제들"
+            },
+            {
+                "id": 4,
+                "introduction": "2012년 설립된 Elastic 은 오픈 소스를 기반으로 설립된 검색 기업입니다. Elastic 은 어디에서나 배포될 수 있는 기술 스택인 Elastic Stack 을 기반으로, 엔터프라이즈 검색, 통합 가시성, 보안을 위한 솔루션 들을 제공합니다. 전 세계 수천 개의 기업들이 Elastic 을 이용해 업무상 중요한 시스템을 구동하고 문제를 해결하고 있습니다.",
+                "homepage_link": "https://www.elastic.co",
+                "sponsorship_rating": "Platinum",
+                "name": "Elastic"
+            }
+        ],
+        "Gold": [
+            {
+                "id": 2,
+                "introduction": "추후 제출 요청",
+                "homepage_link": "https://learningspoons.com/",
+                "sponsorship_rating": "Gold",
+                "name": "러닝스푼즈"
+            },
+            {
+                "id": 5,
+                "introduction": "추후 발송 예정",
+                "homepage_link": "http://www.ebrain.kr/",
+                "sponsorship_rating": "Gold",
+                "name": "주식회사 이브레인"
+            }
+        ],
+        "Silver": [
+            {
+                "id": 6,
+                "introduction": "한빛미디어는 ‘책으로 여는 IT 세상’을 만들어 갑니다. IT 세상의 주역은 ‘우리’ 입니다. 한빛미디어는 IT 세상의 주역들을 위한 프로그래밍, 컴퓨터공학, IT 에세이, Make, OA, 그래픽, 나와 내 아이를 위한 실용 등 다양한 분야의 책으로 IT 세상을 만들어 가고 있습니다.",
+                "homepage_link": "https://www.hanbit.co.kr/",
+                "sponsorship_rating": "Silver",
+                "name": "한빛미디어"
+            }
+        ]
+    }
+}
+```
+
+
 
 
 

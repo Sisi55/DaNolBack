@@ -18,8 +18,8 @@ from config import settings
 from openpyxl import load_workbook
 from pyexcel_xlsx import get_data as xlsx_get
 
-from sheets.models import Member, Content
-from sheets.serializers import ContentSerializer
+from sheets.models import Member, Content, Sponsor
+from sheets.serializers import ContentSerializer, SponsorSerializer
 
 
 @api_view(['GET'])
@@ -171,6 +171,58 @@ def save_archiving_data(request):  # 기존 엑셀 데이터를 db 에 저장하
     }, status=status.HTTP_200_OK)
 
 
+@api_view(['POST'])
+@transaction.atomic
+def save_sponsor_data(request):
+    data_len = request.query_params.get('size')  # 데이터 길이 수동 입력
+    # 시트 이름은 어떻게 하지! 일단 하드코딩 : 'Form Responses 1'
+
+    # 간단한 인증 : 홈페이지 데이터라서
+    api_key = request.query_params.get('apiKey')  # 아주 간단하게 인증 : post 니까!
+    if api_key != settings.API_KEY:
+        return Response({"message": "Request Permission Error."}, status=status.HTTP_403_FORBIDDEN)
+
+    # 파일 받아오기
+    file = request.FILES['file']
+    data = xlsx_get(file, row_limit=int(data_len))  # DATA_LEN[year]
+
+    data['Form Responses 1'] = data['Form Responses 1'][1:]  # header 제외
+
+    content_list = []
+    for row in data['Form Responses 1']:
+        # print('row all', row)
+        # print('name', row[1])
+        # print('homepage', row[6])
+        # print('introduction', row[7])
+        data = {
+            'name': row[1],
+            'homepage_link': row[6],
+            'introduction': row[7],
+            'sponsorship_rating': row[8],
+        }
+
+        # 이미 있는지 확인해봐야 하는데! 후원기업 이름 기반으로 확인하기
+        existing_sponsor = Sponsor.objects.filter(name=row[1]).first()
+        if existing_sponsor is not None:  # 이미 있으면
+            sponsor_serializer = SponsorSerializer(existing_sponsor, data=data)
+        else:
+            sponsor_serializer = SponsorSerializer(data=data)
+
+        if not sponsor_serializer.is_valid(raise_exception=True):
+            return Response({"message": "Request Body Error."}, status=status.HTTP_409_CONFLICT)
+
+        # sponsor = Sponsor(introduction=row[7], homepage_link=row[6], sponsorship_rating=row[8], name=row[1])
+        sponsor_serializer.save()
+
+        # sponsor_serializer = SponsorSerializer(instance=sponsor)
+        content_list.append(sponsor_serializer.data)
+
+    return Response({
+        'size': len(content_list),
+        'data': content_list,
+    }, status=status.HTTP_200_OK)
+
+
 @api_view(['GET'])
 def get_contents(request):
     year = request.query_params.get('year')
@@ -194,4 +246,21 @@ def get_contents(request):
         'size': len(content_list),
         'year': year,
         'data': track_data,  # content_serializer.data,
+    }, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_sponsors(request):
+    sponsor_list = Sponsor.objects.all()
+
+    rating_data = {}
+    ratings = [Sponsor.Platinum, Sponsor.Gold, Sponsor.Silver]
+    for rating in ratings:
+        sponsor_rating = sponsor_list.filter(sponsorship_rating=rating)
+        sponsor_serializer = SponsorSerializer(instance=sponsor_rating, many=True)
+        rating_data[rating] = sponsor_serializer.data
+
+    return Response({
+        'size': len(sponsor_list),
+        # 'year': year,
+        'data': rating_data,  # content_serializer.data,
     }, status=status.HTTP_200_OK)
