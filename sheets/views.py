@@ -19,7 +19,7 @@ from openpyxl import load_workbook
 from pyexcel_xlsx import get_data as xlsx_get
 
 from sheets.models import Member, Content, Sponsor
-from sheets.serializers import ContentSerializer, SponsorSerializer, MemberSerializer
+from sheets.serializers import ContentSerializer, SponsorSerializer, MemberSerializer, ContentToPresenterSerializer
 
 
 @api_view(['GET'])
@@ -284,6 +284,95 @@ def save_committee_data(request):
     }, status=status.HTTP_200_OK)
 
 
+@api_view(['POST'])
+def save_content2020_data(request):
+    data_len = request.query_params.get('size')  # 데이터 길이 수동 입력
+    # 시트 이름 하드코딩
+    sheet_name = '시트1'
+
+    # 간단한 인증 : 홈페이지 데이터라서
+    api_key = request.query_params.get('apiKey')  # 아주 간단하게 인증 : post 니까!
+    if api_key != settings.API_KEY:
+        return Response({"message": "Request Permission Error."}, status=status.HTTP_403_FORBIDDEN)
+
+    # 파일 받아오기
+    file = request.FILES['file']
+    data = xlsx_get(file, row_limit=int(data_len))  # DATA_LEN[year]
+
+    data[sheet_name] = data[sheet_name][1:]  # header 제외
+    print(len(data[sheet_name]))
+
+    content_list = []
+    for row in data[sheet_name]:
+        # print('row all', row)
+        if not row:  # 시트 행 != 실제 행 : 중간에 생략된 행 번호가 있네
+            print('row is []')
+            break
+        # content_list.append(row)
+
+        # Member: email, name, belongTo
+        # print('name', row[1])
+        # print('email', row[9])
+        # print('belongTo', row[2])
+        presenter_data = {
+            'name': row[1],
+            'email': row[9],
+            'belongTo': row[2],
+        }
+        # 이미 있는지 email 기반으로 확인하기
+        existing_member = Member.objects.filter(email=row[9]).first()
+        if existing_member is not None:  # 이미 있으면
+            member_serializer = MemberSerializer(existing_member, data=presenter_data)
+        else:
+            member_serializer = MemberSerializer(data=presenter_data)
+        if not member_serializer.is_valid(raise_exception=True):
+            return Response({"message": "Request Body Error."}, status=status.HTTP_409_CONFLICT)
+
+        member_serializer.save()  ## TODO save
+
+        # Content: presenter, title, presentation_time, introduction, kind
+        # print('presenter', presenter_data)
+        if not row[6]:
+            row[6] = ' '
+            print('title', row[6])
+        if not row[7]:
+            row[7] = ' '
+            print('introduction', row[7])
+
+        # print('presentation_time', row[5])
+        # print('introduction', row[7])
+        # print('kind', row[0])
+
+        content_data = {
+            'presenter': member_serializer.instance,  # for update
+            'title': row[6],
+            'presentation_time': row[5],
+            'introduction': row[7],
+            'kind': row[0],
+        }
+        # # content_list.append(data)
+
+        # 발표자 email 기반으로 Content 찾아온다
+        existing_content = Content.objects.filter(presenter__email=row[9]).first()
+        if existing_content is not None:  # 이미 있으면
+            content_serializer = ContentSerializer(existing_content, data=content_data)
+        else:
+            content_serializer = ContentSerializer(data=content_data)
+
+        if not content_serializer.is_valid(raise_exception=True):
+            return Response({"message": "Request Body Error."}, status=status.HTTP_409_CONFLICT)
+
+        content_serializer.save(presenter=member_serializer.instance)  ## TODO save
+
+        # content_list.append(content_serializer.validated_data)
+        content_list.append(content_serializer.data)
+
+    return Response({
+        'size': len(content_list),
+        'data': content_list,
+    }, status=status.HTTP_200_OK)
+
+
 @api_view(['GET'])
 def get_contents(request):
     year = request.query_params.get('year')
@@ -336,4 +425,31 @@ def get_members(request):
     return Response({
         'size': len(member_serializer.data),
         'data': member_serializer.data,  # content_serializer.data,
+    }, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def get_contents_2020_TMP(request):
+    content_list = Content.objects.filter(year='2020')
+    content_serializer = ContentSerializer(instance=content_list, many=True)
+
+    return Response({
+        'size': len(content_serializer.data),
+        'data': content_serializer.data,  # content_serializer.data,
+    }, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_presenters_2020_TMP(request): # 'presenter__sns',
+    content_list = Content.objects.filter(year='2020')#.values('presenter__id', 'presenter__kind', 'presenter__email', 'presenter__name', 'presenter__introduction',  'presenter__belongTo')
+    presenter_list = []
+    for content in content_list:
+        presenter_list.append(content.presenter)
+    print(type(content_list))
+    presenter_serializer = ContentToPresenterSerializer(instance=presenter_list, many=True)
+    # if not content_serializer.is_valid(raise_exception=True):
+    #     return Response({"message": "Request Body Error."}, status=status.HTTP_409_CONFLICT)
+
+    return Response({
+        'size': len(presenter_serializer.data),
+        'data': presenter_serializer.data,  # content_serializer.data,
     }, status=status.HTTP_200_OK)

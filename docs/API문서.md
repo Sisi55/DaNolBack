@@ -259,150 +259,6 @@
             "introduction": "컨텐츠 / 홈페이지 / 뉴스레터 파트 팀원",
             "sns": []
         },
-        {
-            "id": 152,
-            "kind": "준비위",
-            "email": "youngwung.kim@gmail.com",
-            "image_url": null,
-            "name": "김영웅",
-            "introduction": "컨텐츠 파트 팀원",
-            "sns": []
-        },
-        {
-            "id": 153,
-            "kind": "준비위",
-            "email": "dmstn2006@naver.com",
-            "image_url": null,
-            "name": "김은수",
-            "introduction": "스튜디오 파트장",
-            "sns": []
-        },
-        {
-            "id": 154,
-            "kind": "준비위",
-            "email": "jongho.kim95@gmail.com",
-            "image_url": null,
-            "name": "김종호",
-            "introduction": "뉴스레터 팀원",
-            "sns": []
-        },
-        {
-            "id": 155,
-            "kind": "준비위",
-            "email": "jinyoungkim0828@gmail.com",
-            "image_url": null,
-            "name": "김진영",
-            "introduction": "디자인 파트장",
-            "sns": []
-        },
-        {
-            "id": 156,
-            "kind": "준비위",
-            "email": "mel.f.dev@gmail.com",
-            "image_url": null,
-            "name": "박슬기",
-            "introduction": "올어라운드 플레이어",
-            "sns": []
-        },
-        {
-            "id": 157,
-            "kind": "준비위",
-            "email": "hyun.sang@parkhyunsang.com",
-            "image_url": null,
-            "name": "박현상",
-            "introduction": "홈페이지 파트 팀원",
-            "sns": []
-        },
-        {
-            "id": 158,
-            "kind": "준비위",
-            "email": "mathmjseo@khu.ac.kr",
-            "image_url": null,
-            "name": "서민정",
-            "introduction": "뉴스레터 파트장",
-            "sns": []
-        },
-        {
-            "id": 159,
-            "kind": "준비위",
-            "email": "nalonghae311@gmail.com",
-            "image_url": null,
-            "name": "양나영",
-            "introduction": "컨텐츠 파트 팀원",
-            "sns": []
-        },
-        {
-            "id": 160,
-            "kind": "준비위",
-            "email": "s2018s10@e-mirim.hs.kr",
-            "image_url": null,
-            "name": "양아름",
-            "introduction": "홈페이지 파트장",
-            "sns": []
-        },
-        {
-            "id": 161,
-            "kind": "준비위",
-            "email": "junghwan.alfred.yun@gmail.com",
-            "image_url": null,
-            "name": "윤정환",
-            "introduction": "콘텐츠 파트장",
-            "sns": []
-        },
-        {
-            "id": 162,
-            "kind": "준비위",
-            "email": "ghkdud204@gmail.com",
-            "image_url": null,
-            "name": "윤화영",
-            "introduction": "컨텐츠 / 커뮤니케이션 / 디자인파트 팀원",
-            "sns": []
-        },
-        {
-            "id": 163,
-            "kind": "준비위",
-            "email": "s2018s12@e-mirim.hs.kr",
-            "image_url": null,
-            "name": "윤희나",
-            "introduction": "올어라운드 플레이어 -> 틈 파트장!",
-            "sns": []
-        },
-        {
-            "id": 164,
-            "kind": "준비위",
-            "email": "leeilsup0909@gmail.com",
-            "image_url": null,
-            "name": "이일섭",
-            "introduction": "데놀2020 놀장",
-            "sns": []
-        },
-        {
-            "id": 165,
-            "kind": "준비위",
-            "email": "mineislucky@gmail.com",
-            "image_url": null,
-            "name": "장민서",
-            "introduction": "스폰서쉽 / 스튜디오 파트 팀원",
-            "sns": []
-        },
-        {
-            "id": 166,
-            "kind": "준비위",
-            "email": "jess0884@gmail.com",
-            "image_url": null,
-            "name": "한연희",
-            "introduction": "커뮤니케이션 파트장",
-            "sns": []
-        },
-        {
-            "id": 167,
-            "kind": "준비위",
-            "email": "imyuna.viz@gmail.com",
-            "image_url": null,
-            "name": "임유나",
-            "introduction": "디자인 팀원",
-            "sns": []
-        }
     ]
 }
 ```
@@ -411,40 +267,107 @@
 
 
 
-> 한글은 영문으로 변경될 예정입니다 
->
-> (현재 모델링된 내용을 바탕으로 작성한 것이니 변경되었으면 하는 부분은 알려주세요)
->
-> 예시 response 가 잘 전달이 안된다면, 어떤 부분이 더 자세하면 좋을지 알려주세요
->
-> - #### 준비위 api / 연사자 api
->
-> ```python
-> {
->     "길이": 32,
->     "구분": "준비위", # or 발표자
->     "data": [
->         {
->             "id": 1,
->             "구분": "준비위", # or 발표자
->             "이메일": "sisi.sisi.com",
->             "사진url": "...구글 드라이브로 공유할 생각이었습니다",
->             "이름": "김데놀",
->             "소개": "데이터야놀자 어쩌구저쩌구솰라"
->             "sns계정":[
->                 {
->                     "id": 1
->                     "구분": "깃허브",
->                 	"주소url": "github.com/xxxx"
->                 },                
->             ]
->         }, ...
->     ]
-> }
-> ```
->
-> - #### 타임테이블 api (2020ver) 
->
->   - 발표자료 가져오기 api 와 동일한 response
->
-> 
+## 임시) 2020 발표 list 가져오기
+
+- url : GET
+  - BASE_URL + /sheets/contents-2020/
+
+```python
+{
+    "size": 24,
+    "data": [
+        {
+            "id": 427,
+            "year": "2020",
+            "track_num": "",
+            "order": "",
+            "presenter": {
+                "id": 425,
+                "kind": "발표자",
+                "email": "pbj00812@gmail.com",
+                "image_url": "",
+                "name": "박범진",
+                "introduction": "",
+                "sns": [],
+                "belongTo": "wadiz"
+            },
+            "title": "데이터로 이야기하는 재미",
+            "source_link": "",
+            "introduction": "회사 내에서 이야기를 통해 일하는 방법",
+            "kind": "일반 세션"
+        },
+        {
+            "id": 428,
+            "year": "2020",
+            "track_num": "",
+            "order": "",
+            "presenter": {
+                "id": 426,
+                "kind": "발표자",
+                "email": "ym911.jo@sk.com",
+                "image_url": "",
+                "name": "Jerry(조영민)",
+                "introduction": "",
+                "sns": [],
+                "belongTo": "FLO (드림어스컴퍼니)"
+            },
+            "title": "빌런들 속에서 데이터팀 만들기(부제 :  Data Literacy 역량을 갖춘 조직 만들기)",
+            "source_link": "",
+            "introduction": "500만 가입자를 가진 음악서비스 플랫폼 FLO에서 뮤직데이터팀 빌딩 과정을 공유 하고자 합니다.",
+            "kind": "일반 세션"
+        },
+        {
+            "id": 429,
+            "year": "2020",
+            "track_num": "",
+            "order": "",
+            "presenter": {
+                "id": 427,
+                "kind": "발표자",
+                "email": "kbkb456@gmail.com",
+                "image_url": "",
+                "name": "임광빈",
+                "introduction": "",
+                "sns": [],
+                "belongTo": "크로키닷컴 (UX팀)"
+            },
+            "title": "UX 필살기 커맨드 AB",
+            "source_link": "",
+            "introduction": "지그재그 앱 내에서 했던 AB테스트 사례",
+            "kind": "일반 세션"
+        },
+    ]
+}
+```
+
+
+
+## 임시) 2020 발표자 list 가져오기
+
+- url : GET
+  - BASE_URL + /sheets/presenters-2020/
+
+```python
+{
+    "size": 24,
+    "data": [
+        {
+            "id": 425,
+            "kind": "발표자",
+            "email": "pbj00812@gmail.com",
+            "name": "박범진",
+            "introduction": "",
+            "belongTo": "wadiz"
+        },
+        {
+            "id": 426,
+            "kind": "발표자",
+            "email": "ym911.jo@sk.com",
+            "name": "Jerry(조영민)",
+            "introduction": "",
+            "belongTo": "FLO (드림어스컴퍼니)"
+        },
+    ]
+}
+```
+
